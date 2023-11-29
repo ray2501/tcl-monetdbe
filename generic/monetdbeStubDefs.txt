@@ -1,0 +1,25 @@
+# monetdbStubDefs.txt --
+#
+#	Definitions of routines in the MonetDB Embedded library that will be
+#	resolved and imported at run time.
+#
+#-----------------------------------------------------------------------------
+
+* STUBSTRUCT: monetdbeStubs
+* LIBRARY: libmonetdbe monetdbe
+
+const char* monetdbe_version(void);
+int   monetdbe_open(monetdbe_database *db, char *url, monetdbe_options *opts);
+int   monetdbe_close(monetdbe_database db);
+char* monetdbe_get_autocommit(monetdbe_database dbhdl, int* result);
+char* monetdbe_set_autocommit(monetdbe_database dbhdl, int value);
+int   monetdbe_in_transaction(monetdbe_database dbhdl);
+char* monetdbe_query(monetdbe_database dbhdl, char* query, monetdbe_result** result, monetdbe_cnt* affected_rows);
+char* monetdbe_result_fetch(monetdbe_result *mres, monetdbe_column** res, size_t column_index);
+char* monetdbe_cleanup_result(monetdbe_database dbhdl, monetdbe_result* result);
+char* monetdbe_prepare(monetdbe_database dbhdl, char *query, monetdbe_statement **stmt, monetdbe_result** result);
+char* monetdbe_bind(monetdbe_statement *stmt, void *data, size_t parameter_nr);
+char* monetdbe_execute(monetdbe_statement *stmt, monetdbe_result **result, monetdbe_cnt* affected_rows);
+char* monetdbe_cleanup_statement(monetdbe_database dbhdl, monetdbe_statement *stmt);
+char* monetdbe_dump_database(monetdbe_database dbhdl, const char *backupfile);
+char* monetdbe_dump_table(monetdbe_database dbhdl, const char *schema_name, const char *table_name, const char *backupfile);

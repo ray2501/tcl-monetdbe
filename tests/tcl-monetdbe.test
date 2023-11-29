@@ -1,0 +1,157 @@
+# monetdbe.test --
+#
+#	Tests for the monetdbe extesnion
+#
+
+loadTestedCommands
+package require monetdbe
+
+#-------------------------------------------------------------------------------
+
+test monetdbe-1.1 {open a database, wrong # args} {*}{
+    -body {
+	monetdbe db aaa
+    }
+    -returnCodes error
+    -match glob
+    -result {wrong # args*}
+}
+
+test monetdbe-1.2 {open a database, successful} {*}{
+    -body {
+	set result [catch {monetdbe ::db -url ":memory:"}]
+    }
+    -result 0
+}
+
+test monetdbe-1.3 {close a database, successful} {*}{
+    -body {
+    set result [catch {::db close}]
+    }
+    -result 0
+}
+
+test monetdbe-1.4 {open a database, successful} {*}{
+    -body {
+    set result [catch {monetdbe ::db}]
+    }
+    -result 0
+}
+
+test monetdbe-1.5 {set autocommit, successful} {*}{
+    -body {
+        set result [db setAutocommit 1]
+    }
+    -result 1
+}
+
+test monetdbe-1.6 {get autocommit, successful} {*}{
+    -body {
+        set result [db getAutocommit]
+    }
+    -result 1
+}
+
+#-------------------------------------------------------------------------------
+
+test monetdbe-2.1 {query test, wrong # args} {*}{
+    -body {
+    set result [::db query]
+    }
+    -returnCodes error
+    -match glob
+    -result {wrong # args*}
+}
+
+test monetdbe-2.2 {query test} {*}{
+    -body {
+    set result [::db query "select 1+1"]
+    }
+    -result 2
+}
+
+test monetdbe-2.3 {query test, drop table} {*}{
+    -body {
+    set resutl [::db query "DROP TABLE IF EXISTS record"]
+    }
+    -result {}
+}
+
+test monetdbe-2.4 {query test, transaction} {*}{
+    -body {
+    ::db query "START TRANSACTION"
+    ::db query "CREATE TABLE record (name varchar(32) primary key, power double)"
+
+    ::db query "INSERT INTO record VALUES ('arthur', '85.0')"
+    ::db query "INSERT INTO record VALUES ('danilo', '100.0')"
+    ::db query "INSERT INTO record VALUES ('jimmy', '60.0')"
+    ::db query "INSERT INTO record VALUES ('george', '0.0')"
+    ::db query "INSERT INTO record VALUES ('gino', '100.0')"
+    ::db query "INSERT INTO record VALUES ('orange', '75.0')"
+    ::db query "INSERT INTO record VALUES ('shimao', '95.0')"
+
+    set result [::db in_transaction]
+
+    ::db query "COMMIT"
+    expr $result==1
+    }
+    -result 1
+}
+
+test monetdbe-2.5 {prepare statement, wrong # args} {*}{
+    -body {
+	::db prepare
+    }
+    -returnCodes error
+    -match glob
+    -result {wrong # args*}
+}
+
+test monetdbe-2.6 {prepare and execute} {*}{
+    -body {
+    set stmt [::db prepare "select 1+1"]
+    $stmt execute
+    set result [$stmt fetch_row_list]
+    $stmt close
+    expr $result==2
+    }
+    -result 1
+}
+
+test monetdbe-2.7 {prepare and execute} {*}{
+    -body {
+    set stmt [::db prepare "INSERT INTO record VALUES (?, ?)"]
+    $stmt bind 0 string julia
+    $stmt bind 1 double 50.0
+    $stmt execute
+    $stmt close
+    }
+    -result 1
+}
+
+test monetdbe-2.8 {prepare and execute} {*}{
+    -body {
+    set stmt [::db prepare "SELECT count(name) FROM record where power > ?"]
+    $stmt bind 0 double 55.0
+    $stmt execute
+    set result [$stmt fetch_row_list]
+    $stmt close
+    expr $result==6
+    }
+    -result 1
+}
+
+test monetdbe-2.9 {dump database} {*}{
+    -body {
+    set result [catch {db dump_database backfile}]
+    }
+    -result 0
+}
+
+#-------------------------------------------------------------------------------
+
+catch {::db close}
+removeFile backfile
+
+cleanupTests
+return

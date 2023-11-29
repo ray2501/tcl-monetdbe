@@ -1,0 +1,29 @@
+2023-11-29  Danilo Chang
+
+	* Bump version to v0.2
+	* Add file: tdbcmonetdbe.tcl
+
+2023-11-28  Danilo Chang
+
+	* Improve execute function
+
+2023-11-27  Danilo Chang
+
+	* Update test cases
+	* Improve prepare/bind/execute function
+
+2023-11-26  Danilo Chang
+
+	* tclmonetdbe.c: Add prepare/bind/execute function
+	* monetdbeStubDefs.txt: Update table
+
+2023-11-25  Danilo Chang
+
+	* tclmonetdbe.c: Add dump_database function
+	* tclmonetdbe.c: Add query function
+	* monetdbeStubDefs.txt: Update table
+
+2023-11-24  Danilo Chang
+
+	* Implement monetdbe command
+
