@@ -441,7 +441,6 @@ static int MONETE_STMT(void *cd, Tcl_Interp *interp, int objc,
             Tcl_SetResult(interp, errorStr, NULL);
 
             monetdbe_cleanup_result(pDb->db, pStmt->result);
-            Tcl_Free((char *)pStmt->result);
             pStmt->result = 0;
             pStmt->affected_rows = 0;
             pStmt->index = 0;
@@ -460,7 +459,6 @@ static int MONETE_STMT(void *cd, Tcl_Interp *interp, int objc,
                     pStmt->nrows * sizeof(monetdbe_column *));
                 if (!pStmt->columns) {
                     monetdbe_cleanup_result(pDb->db, pStmt->result);
-                    Tcl_Free((char *)pStmt->result);
                     pStmt->result = 0;
                     pStmt->affected_rows = 0;
                     pStmt->index = 0;
@@ -495,7 +493,6 @@ static int MONETE_STMT(void *cd, Tcl_Interp *interp, int objc,
                             }
 
                             monetdbe_cleanup_result(pDb->db, pStmt->result);
-                            Tcl_Free((char *)pStmt->result);
                             pStmt->result = 0;
                             pStmt->affected_rows = 0;
                             pStmt->index = 0;
