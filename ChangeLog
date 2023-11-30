@@ -1,5 +1,6 @@
 2023-11-30  Danilo Chang
 
+	* Bump version to v0.2.1
 	* Add new test cases
 	* tclmonetdbe.c: Remove unnecessary free code
 
