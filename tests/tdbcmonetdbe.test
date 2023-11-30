@@ -63,7 +63,6 @@ test tdbcmonetdbe-2.3 {prepare, as lists} {*}{
 #-------------------------------------------------------------------------------
 
 catch {db close}
-removeFile backfile
 
 cleanupTests
 return
