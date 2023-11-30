@@ -1,5 +1,6 @@
-2023-11-300  Danilo Chang
+2023-11-30  Danilo Chang
 
+	* Add new test cases
 	* tclmonetdbe.c: Remove unnecessary free code
 
 2023-11-29  Danilo Chang
