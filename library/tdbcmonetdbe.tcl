@@ -401,7 +401,7 @@ package provide tdbc::monetdbe 0.2.1
             # just give a default value.
             if {[string index $token 0] in {$ : @}} {
                 dict set Params [string range $token 1 end] \
-                    {type auto direction in}
+                    {type string direction in}
 
                 append sql "?"
                 continue
