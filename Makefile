@@ -307,20 +307,6 @@ VPATH = $(srcdir)/generic:$(srcdir)/unix:$(srcdir)/win:$(srcdir)/macosx
 .c.o:
 	$(COMPILE) -c `echo $<` -o $@
 
-tclsample.o:	sampleUuid.h
-
-$(srcdir)/manifest.uuid:
-	printf "git-" >$(srcdir)/manifest.uuid
-	(cd $(srcdir); git rev-parse HEAD >>$(srcdir)/manifest.uuid || \
-	    (printf "svn-r" >$(srcdir)/manifest.uuid ; \
-	    svn info --show-item last-changed-revision >>$(srcdir)/manifest.uuid) || \
-	    printf "unknown" >$(srcdir)/manifest.uuid)
-
-sampleUuid.h:	$(srcdir)/manifest.uuid
-	echo "#define SAMPLE_VERSION_UUID \\" >$@
-	cat $(srcdir)/manifest.uuid >>$@
-	echo "" >>$@
-
 #========================================================================
 # Distribution creation
 # You may need to tweak this target to make it work correctly.
