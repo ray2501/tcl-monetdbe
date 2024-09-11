@@ -5,7 +5,7 @@
 
 Name:          tcl-monetdbe
 Summary:       Tcl extension for MonetDB Embedded
-Version:       0.2.2
+Version:       0.2.3
 Release:       1
 License:       MPL-2.0
 Group:         Development/Libraries/Tcl
