@@ -198,7 +198,7 @@ static int MONETE_STMT(void *cd, Tcl_Interp *interp, int objc,
 
     case STMT_BIND: {
         char *type = NULL;
-        int len = 0;
+        Tcl_Size len = 0;
         Tcl_WideInt index = 0;
         char *errorStr = NULL;
 
@@ -289,7 +289,7 @@ static int MONETE_STMT(void *cd, Tcl_Interp *interp, int objc,
             errorStr = monetdbe_bind(pStmt->statement, &value, index);
         } else if (strcmp(type, "string") == 0) {
             char *value = NULL;
-            int length = 0;
+            Tcl_Size length = 0;
 
             value = Tcl_GetStringFromObj(objv[4], &length);
             if (!value || length < 1) {
@@ -299,7 +299,7 @@ static int MONETE_STMT(void *cd, Tcl_Interp *interp, int objc,
             errorStr = monetdbe_bind(pStmt->statement, value, index);
         } else if (strcmp(type, "time") == 0) {
             char *value = NULL;
-            int length = 0;
+            Tcl_Size length = 0;
             unsigned int ms;
             unsigned char seconds;
             unsigned char minutes;
@@ -324,7 +324,7 @@ static int MONETE_STMT(void *cd, Tcl_Interp *interp, int objc,
             errorStr = monetdbe_bind(pStmt->statement, &t, index);
         } else if (strcmp(type, "date") == 0) {
             char *value = NULL;
-            int length = 0;
+            Tcl_Size length = 0;
             unsigned char day = 0;
             unsigned char month = 0;
             short year = 0;
@@ -347,7 +347,7 @@ static int MONETE_STMT(void *cd, Tcl_Interp *interp, int objc,
             errorStr = monetdbe_bind(pStmt->statement, &d, index);
         } else if (strcmp(type, "timestamp") == 0) {
             char *value = NULL;
-            int length = 0;
+            Tcl_Size length = 0;
             unsigned int ms;
             unsigned char seconds;
             unsigned char minutes;
@@ -379,7 +379,7 @@ static int MONETE_STMT(void *cd, Tcl_Interp *interp, int objc,
             errorStr = monetdbe_bind(pStmt->statement, &tt, index);
         } else if (strcmp(type, "blob") == 0) {
             char *value = NULL;
-            int length = 0;
+            Tcl_Size length = 0;
             monetdbe_data_blob data;
 
             value = Tcl_GetStringFromObj(objv[4], &length);
@@ -1312,7 +1312,7 @@ static int DbObjCmd(void *cd, Tcl_Interp *interp, int objc,
     case DB_DUMP_DATABASE: {
         char *zPath = NULL;
         char *errorStr = NULL;
-        int len = 0;
+        Tcl_Size len = 0;
 
         if (objc == 3) {
             zPath = Tcl_GetStringFromObj(objv[2], &len);
@@ -1337,7 +1337,7 @@ static int DbObjCmd(void *cd, Tcl_Interp *interp, int objc,
     case DB_DUMP_TABLE: {
         char *schema_name = NULL, *table_name = NULL, *zPath = NULL;
         char *errorStr = NULL;
-        int len = 0;
+        Tcl_Size len = 0;
 
         if (objc == 5) {
             schema_name = Tcl_GetStringFromObj(objv[2], &len);
@@ -1375,7 +1375,7 @@ static int DbObjCmd(void *cd, Tcl_Interp *interp, int objc,
     case DB_QUERY: {
         char *zQuery = NULL;
         char *errorStr = NULL;
-        int len = 0;
+        Tcl_Size len = 0;
         Tcl_Obj *pResultStr = NULL;
         monetdbe_cnt affected_rows;
         monetdbe_result *result;
@@ -1684,7 +1684,7 @@ static int DbObjCmd(void *cd, Tcl_Interp *interp, int objc,
     case DB_PREPARE: {
         char *zQuery = NULL;
         char *errorStr = NULL;
-        int len = 0;
+        Tcl_Size len = 0;
         Tcl_HashEntry *newHashEntryPtr;
         char handleName[16 + TCL_INTEGER_SPACE];
         Tcl_Obj *pResultStr = NULL;
@@ -1863,7 +1863,7 @@ extern "C" {
 #endif                                          /* __cplusplus */
 DLLEXPORT int Monetdbe_Init(Tcl_Interp *interp) /* Tcl interpreter */
 {
-    if (Tcl_InitStubs(interp, "8.6", 0) == NULL) {
+    if (Tcl_InitStubs(interp, TCL_VERSION, 0) == NULL) {
         return TCL_ERROR;
     }
 
